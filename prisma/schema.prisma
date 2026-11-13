@@ -8,9 +8,54 @@ datasource db {
 }
 
 model Tenant {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   name      String
-  createdAt DateTime @default(now())
+  createdAt DateTime   @default(now())
+  documents Document[]
 
   @@map("tenants")
+}
+
+model Document {
+  id           String         @id @default(cuid())
+  tenantId     String
+  title        String
+  originalName  String
+  mimeType     String
+  contentHash  String
+  status       DocumentStatus @default(PENDING)
+  errorMessage String?
+  chunkCount   Int            @default(0)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  tenant       Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  chunks       Chunk[]
+
+  @@unique([tenantId, contentHash])
+  @@index([tenantId, status])
+  @@map("documents")
+}
+
+model Chunk {
+  id          String   @id @default(cuid())
+  tenantId    String
+  documentId  String
+  content     String
+  contentHash String
+  chunkIndex  Int
+  createdAt   DateTime @default(now())
+
+  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@unique([documentId, chunkIndex])
+  @@index([tenantId, documentId])
+  @@map("chunks")
+}
+
+enum DocumentStatus {
+  PENDING
+  PROCESSING
+  READY
+  FAILED
 }

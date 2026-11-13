@@ -1,0 +1,4 @@
+CREATE EXTENSION IF NOT EXISTS vector;
+
+ALTER TABLE "chunks"
+ADD COLUMN "embedding" vector(768);
