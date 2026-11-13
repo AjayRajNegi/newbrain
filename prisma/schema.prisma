@@ -45,6 +45,7 @@ model Chunk {
   content     String
   contentHash String
   chunkIndex  Int
+  embedding   Unsupported("vector(768)")?
   createdAt   DateTime @default(now())
 
   document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)

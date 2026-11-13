@@ -1,0 +1,14 @@
+
+What is Brand Brain?
+
+Brand Brain is an AI-powered knowledge assistant
+that helps teams answer questions about their products.
+
+How do I get started?
+
+Upload your product documentation and start asking
+questions in the chat interface.
+
+Does Brand Brain support multiple teams?
+
+Yes. Each team has its own isolated knowledge base.
