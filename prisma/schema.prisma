@@ -20,16 +20,17 @@ model Document {
   id           String         @id @default(cuid())
   tenantId     String
   title        String
-  originalName  String
+  originalName String
   mimeType     String
   contentHash  String
+  sourceText   String         @db.Text
   status       DocumentStatus @default(PENDING)
   errorMessage String?
   chunkCount   Int            @default(0)
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
 
-  tenant       Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenant       Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   chunks       Chunk[]
 
   @@unique([tenantId, contentHash])
